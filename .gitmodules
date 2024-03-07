@@ -1,0 +1,3 @@
+[submodule "nanoglimpse/external/spdlog"]
+	path = nanoglimpse/external/spdlog
+	url = https://github.com/gabime/spdlog.git
