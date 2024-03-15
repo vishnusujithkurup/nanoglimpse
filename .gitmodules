@@ -1,3 +1,6 @@
 [submodule "nanoglimpse/external/spdlog"]
 	path = nanoglimpse/external/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "nanoglimpse/external/glfw"]
+	path = nanoglimpse/external/glfw
+	url = https://github.com/glfw/glfw.git

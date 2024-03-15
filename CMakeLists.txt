@@ -9,6 +9,8 @@ add_compile_definitions(NG_DEBUG)
 
 if(WIN32)
     add_compile_definitions(NG_PLATFORM_WINDOWS)
+elseif(APPLE)
+    add_compile_definitions(NG_PLATFORM_APPLE)
 elseif(UNIX)
     add_compile_definitions(NG_PLATFORM_LINUX)
 else()

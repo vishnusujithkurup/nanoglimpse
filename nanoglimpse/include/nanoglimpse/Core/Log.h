@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <spdlog/spdlog.h>
+#include <spdlog/logger.h>
 
 #include "nanoglimpse/Core/Defs.h"
 
