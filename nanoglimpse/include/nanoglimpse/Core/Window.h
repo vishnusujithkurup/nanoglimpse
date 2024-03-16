@@ -13,7 +13,7 @@ namespace ng::Core {
     struct WindowProperties {        
         uint32_t Width = 400;
         uint32_t Height = 400;
-        bool VSyncEnabled = false;
+        bool VSyncEnabled = true;
         bool Resizable = false;
         std::string Title = "NG App";
     };

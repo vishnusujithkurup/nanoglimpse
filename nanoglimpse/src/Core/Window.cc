@@ -24,6 +24,8 @@ namespace ng::Core {
             glfwMakeContextCurrent(m_GLFWwindow);
             ++s_InstanceCount;
 
+            SetVSyncEnabled(props.VSyncEnabled);
+
             glfwSetWindowUserPointer(m_GLFWwindow, (WindowAttribs*)&m_Attribs);
 
             glfwSetKeyCallback(m_GLFWwindow, [](GLFWwindow *window, int key, int scancode, int action, int mods){
