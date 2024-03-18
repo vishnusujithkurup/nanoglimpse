@@ -6,6 +6,7 @@
 #include "nanoglimpse/Events/KeyEvents.h"
 #include "nanoglimpse/Events/MouseEvents.h"
 #include "nanoglimpse/Events/WindowEvents.h"
+#include "nanoglimpse/Core/Layer.h"
 
 namespace ng::Core {
     Application::Application() {
@@ -18,6 +19,10 @@ namespace ng::Core {
 
     void Application::Run() {
         while (m_Running) {
+            for (Layer *layer : m_LayerStack) {
+                layer->OnUpdate();
+            }
+
             m_AppWindow->OnUpdate();
         }
     }
@@ -25,17 +30,6 @@ namespace ng::Core {
     void Application::OnEvent(ng::Events::Event &e) {
         using ng::Events::EventType;
         switch(e.Type) {
-            case EventType::KeyPressed: {
-                ng::Events::KeyPressedEvent kpe = static_cast<ng::Events::KeyPressedEvent&>(e);
-                if (kpe.GetKeyCode() == ng::Core::Key::Escape) {
-                    OnWindowClose();
-                }
-                break;
-            }
-            case EventType::KeyReleased: {
-                ng::Events::KeyReleasedEvent kre = static_cast<ng::Events::KeyReleasedEvent&>(e);
-                break;
-            }
             case EventType::WindowClosed: {
                 OnWindowClose();
                 break;
@@ -45,19 +39,31 @@ namespace ng::Core {
                 NG_INTERNAL_INFO("Window with title=\"{0}\" resized, width={1}, height={2}", m_AppWindow->GetTitle(), wre.GetWidth(), wre.GetHeight());
                 break;
             }
-            case EventType::MouseButtonPressed: {
-                ng::Events::MouseButtonPressedEvent mbpe = static_cast<ng::Events::MouseButtonPressedEvent&>(e);
-                break;
-            }
-            case EventType::MouseButtonReleased: {
-                ng::Events::MouseButtonReleasedEvent mbre = static_cast<ng::Events::MouseButtonReleasedEvent&>(e);
-                break;
-            }
             case EventType::Unknown: {
                 NG_INTERNAL_ERROR("Unknown event received! Ensure event class specifies type!");
                 break;
             }
+            default: {
+                PropagateEventToLayers(e);
+                break;
+            }
         };
+    }
+
+    void Application::PushLayer(Layer *layer) {
+        NG_INTERNAL_ASSERT(layer != nullptr, "Attempting to push nullptr layer!");
+        m_LayerStack.PushLayer(layer);
+    }
+
+    void Application::PushOverlay(Layer *layer) {
+        NG_INTERNAL_ASSERT(layer != nullptr, "Attempting to push nullptr overlay!");
+        m_LayerStack.PushOverlay(layer);
+    }
+
+    void Application::PropagateEventToLayers(ng::Events::Event &e) {
+        for (auto it = m_LayerStack.rbegin(); !e.Handled &&  it != m_LayerStack.rend(); ++it) {
+            (*it)->OnEvent(e);
+        }
     }
 
     void Application::OnWindowClose() {

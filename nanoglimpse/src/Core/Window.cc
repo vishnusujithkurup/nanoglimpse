@@ -64,6 +64,8 @@ namespace ng::Core {
 
             glfwSetWindowSizeCallback(m_GLFWwindow, [](GLFWwindow *window, int width, int height) {
                 WindowAttribs *attribs = (WindowAttribs*)glfwGetWindowUserPointer(window);
+                attribs->Props.Width = width;
+                attribs->Props.Height = height;
                 ng::Events::WindowResizedEvent e(width, height);
                 attribs->EventCB(e);
             });

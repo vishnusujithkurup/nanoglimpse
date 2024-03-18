@@ -6,6 +6,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Application.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Log.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Window.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/LayerStack.cc
 )
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/spdlog)
