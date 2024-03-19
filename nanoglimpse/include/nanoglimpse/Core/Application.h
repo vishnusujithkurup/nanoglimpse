@@ -19,8 +19,12 @@ namespace ng::Core {
         void PushLayer(Layer *layer);
         void PushOverlay(Layer *layer);
 
+        Window* GetWindow() const { return m_AppWindow.get(); }
+
     private:
         bool m_Running;
+        float m_PrevTime;
+
         LayerStack m_LayerStack;
         std::unique_ptr<Window> m_AppWindow;
 

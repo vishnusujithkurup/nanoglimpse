@@ -6,6 +6,7 @@
 
 #include "nanoglimpse/Core/Defs.h"
 #include "nanoglimpse/Events/Event.h"
+#include "nanoglimpse/Renderer/Context.h"
 
 typedef struct GLFWwindow GLFWwindow;
 
@@ -34,10 +35,13 @@ namespace ng::Core {
 
         void SetEventCallback(const std::function<void(ng::Events::Event&)> &cbFun);
 
+        GLFWwindow* GetNativeWindow() const { return m_GLFWwindow; }
+
     private:
         static bool Init();
 
         GLFWwindow *m_GLFWwindow;
+        ng::Renderer::Context m_Context;
 
         static int s_InstanceCount;
         static bool s_GLFWInit;

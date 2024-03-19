@@ -11,7 +11,7 @@ namespace ng::Core {
         virtual ~Layer() = default;
         virtual void OnInit() = 0;
         virtual void OnRemove() = 0;
-        virtual void OnUpdate() = 0;
+        virtual void OnUpdate(float dt) = 0;
         virtual void OnEvent(ng::Events::Event &e) = 0;
     };
 }

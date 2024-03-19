@@ -4,6 +4,7 @@
 #include <nanoglimpse/Core/Application.h>
 #include <nanoglimpse/Math/Math.h>
 #include <nanoglimpse/Core/Layer.h>
+#include <nanoglimpse/Core/Input.h>
 
 class TestLayer : public ng::Core::Layer {
     void OnInit() override {
@@ -14,7 +15,7 @@ class TestLayer : public ng::Core::Layer {
         NG_INFO("Layer removed!");
     }
 
-    void OnUpdate() override {
+    void OnUpdate(float dt) override {
     }
 
     void OnEvent(ng::Events::Event &e) override {

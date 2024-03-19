@@ -21,8 +21,8 @@ namespace ng::Core {
             NG_INTERNAL_ERROR("Failed to create window!");
         } else {
             NG_INTERNAL_INFO("Created window with Width={0}, Height={1}, Title=\"{2}\"", props.Width, props.Height, props.Title);
-            glfwMakeContextCurrent(m_GLFWwindow);
             ++s_InstanceCount;
+            m_Context.Init(m_GLFWwindow);
 
             SetVSyncEnabled(props.VSyncEnabled);
 
@@ -98,7 +98,7 @@ namespace ng::Core {
 
     void Window::OnUpdate() {
         glfwPollEvents();
-        glfwSwapBuffers(m_GLFWwindow);
+        m_Context.SwapBuffers();
     }
 
     void Window::SetVSyncEnabled(bool enableVSync) {

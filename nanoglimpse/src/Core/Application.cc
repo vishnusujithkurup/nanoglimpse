@@ -1,16 +1,14 @@
-#include <iostream>
-
 #include "nanoglimpse/Core/Application.h"
 #include "nanoglimpse/Core/Assert.h"
-
+#include "nanoglimpse/Core/Layer.h"
+#include "nanoglimpse/Core/TimeUtils.h"
 #include "nanoglimpse/Events/KeyEvents.h"
 #include "nanoglimpse/Events/MouseEvents.h"
 #include "nanoglimpse/Events/WindowEvents.h"
-#include "nanoglimpse/Core/Layer.h"
 
 namespace ng::Core {
     Application::Application() {
-        m_AppWindow = std::make_unique<Window>(WindowProperties{.Width=800, .Height=800, .Title="Test Application"});
+        m_AppWindow = std::make_unique<Window>(WindowProperties{.Width=800, .Height=800, .VSyncEnabled = false, .Title="Test Application"});
         if (m_AppWindow) {
             m_Running = true;
             m_AppWindow->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
@@ -19,8 +17,12 @@ namespace ng::Core {
 
     void Application::Run() {
         while (m_Running) {
+            float timeNow = TimeUtils::Now();
+            float dt = timeNow - m_PrevTime;
+            m_PrevTime = timeNow;
+
             for (Layer *layer : m_LayerStack) {
-                layer->OnUpdate();
+                layer->OnUpdate(dt);
             }
 
             m_AppWindow->OnUpdate();
