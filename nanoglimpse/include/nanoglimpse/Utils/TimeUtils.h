@@ -2,6 +2,6 @@
 
 #include "nanoglimpse/Core/Defs.h"
 
-namespace ng::Core::TimeUtils {
+namespace ng::TimeUtils {
     float NG_API Now();
 }

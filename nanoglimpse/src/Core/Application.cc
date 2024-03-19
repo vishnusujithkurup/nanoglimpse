@@ -1,13 +1,13 @@
 #include "nanoglimpse/Core/Application.h"
 #include "nanoglimpse/Core/Assert.h"
 #include "nanoglimpse/Core/Layer.h"
-#include "nanoglimpse/Core/TimeUtils.h"
+#include "nanoglimpse/Utils/TimeUtils.h"
 #include "nanoglimpse/Events/KeyEvents.h"
 #include "nanoglimpse/Events/MouseEvents.h"
 #include "nanoglimpse/Events/WindowEvents.h"
 
 namespace ng::Core {
-    Application::Application() {
+    Application::Application() : m_PrevTime(0.f) {
         m_AppWindow = std::make_unique<Window>(WindowProperties{.Width=800, .Height=800, .VSyncEnabled = false, .Title="Test Application"});
         if (m_AppWindow) {
             m_Running = true;
@@ -17,7 +17,7 @@ namespace ng::Core {
 
     void Application::Run() {
         while (m_Running) {
-            float timeNow = TimeUtils::Now();
+            float timeNow = ng::TimeUtils::Now();
             float dt = timeNow - m_PrevTime;
             m_PrevTime = timeNow;
 
@@ -54,11 +54,13 @@ namespace ng::Core {
 
     void Application::PushLayer(Layer *layer) {
         NG_INTERNAL_ASSERT(layer != nullptr, "Attempting to push nullptr layer!");
+        layer->OnInit();
         m_LayerStack.PushLayer(layer);
     }
 
     void Application::PushOverlay(Layer *layer) {
         NG_INTERNAL_ASSERT(layer != nullptr, "Attempting to push nullptr overlay!");
+        layer->OnInit();
         m_LayerStack.PushOverlay(layer);
     }
 

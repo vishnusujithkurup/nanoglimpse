@@ -1,8 +1,8 @@
 #include <GLFW/glfw3.h>
 
-#include "nanoglimpse/Core/TimeUtils.h"
+#include "nanoglimpse/Utils/TimeUtils.h"
 
-namespace ng::Core::TimeUtils {
+namespace ng::TimeUtils {
     float Now() {
         return float(glfwGetTime());
     }

@@ -8,9 +8,11 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Window.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/LayerStack.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Input.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/TimeUtils.cc
+    
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Utils/TimeUtils.cc
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/Context.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/Shader.cc
 )
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/spdlog)
