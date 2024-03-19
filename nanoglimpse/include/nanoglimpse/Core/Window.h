@@ -6,7 +6,7 @@
 
 #include "nanoglimpse/Core/Defs.h"
 #include "nanoglimpse/Events/Event.h"
-#include "nanoglimpse/Renderer/Context.h"
+#include "nanoglimpse/Graphics/Context.h"
 
 typedef struct GLFWwindow GLFWwindow;
 
@@ -41,7 +41,7 @@ namespace ng::Core {
         static bool Init();
 
         GLFWwindow *m_GLFWwindow;
-        ng::Renderer::Context m_Context;
+        ng::Graphics::Context m_Context;
 
         static int s_InstanceCount;
         static bool s_GLFWInit;

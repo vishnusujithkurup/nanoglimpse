@@ -11,8 +11,11 @@ set(SOURCES
     
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Utils/TimeUtils.cc
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/Context.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Renderer/Shader.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Context.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Shader.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/BufferLayout.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/VertexBuffer.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/VertexArray.cc
 )
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/spdlog)

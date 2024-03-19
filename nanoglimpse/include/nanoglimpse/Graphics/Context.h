@@ -4,7 +4,7 @@
 
 typedef struct GLFWwindow GLFWwindow;
 
-namespace ng::Renderer {
+namespace ng::Graphics {
     class NG_API Context {
     public:
         void Init(GLFWwindow *window);

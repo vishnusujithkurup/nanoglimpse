@@ -6,6 +6,12 @@
 #include "nanoglimpse/Events/MouseEvents.h"
 #include "nanoglimpse/Events/WindowEvents.h"
 
+#include <glad/glad.h>
+#include "nanoglimpse/Graphics/VertexBuffer.h"
+#include "nanoglimpse/Graphics/BufferLayout.h"
+#include "nanoglimpse/Graphics/VertexArray.h"
+#include "nanoglimpse/Graphics/Shader.h"
+
 namespace ng::Core {
     Application::Application() : m_PrevTime(0.f) {
         m_AppWindow = std::make_unique<Window>(WindowProperties{.Width=800, .Height=800, .VSyncEnabled = false, .Title="Test Application"});
@@ -16,6 +22,42 @@ namespace ng::Core {
     }
 
     void Application::Run() {
+        using namespace ng::Graphics;
+
+        float verts[9] = {
+            -0.75f, -0.75f, 0.0f,
+            0.75f, -0.75f, 0.0f,
+            0.0f, 0.75f, 0.0f
+        };
+
+        VertexBuffer vb(verts, sizeof(verts));
+        BufferLayout layout;
+        layout.Push({3, BufferElementType::Float, false});
+        VertexArray va;
+        va.AttachBuffer(vb, layout);
+
+        std::string vert = R"(
+            #version 330 core
+
+            layout (location = 0) in vec3 a_Pos;
+
+            void main() {
+                gl_Position = vec4(a_Pos, 1.0f);
+            }
+        )";
+
+        std::string frag = R"(
+            #version 330 core
+
+            out vec4 color;
+
+            void main() {
+                color = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+            }
+        )";
+
+        Shader shader("Main", vert, frag);
+        
         while (m_Running) {
             float timeNow = ng::TimeUtils::Now();
             float dt = timeNow - m_PrevTime;
@@ -26,6 +68,13 @@ namespace ng::Core {
             }
 
             m_AppWindow->OnUpdate();
+
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            shader.Activate();
+            va.Bind();
+            glDrawArrays(GL_TRIANGLES, 0, 3);
         }
     }
 

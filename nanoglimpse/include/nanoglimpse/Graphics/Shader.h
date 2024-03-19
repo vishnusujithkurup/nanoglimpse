@@ -6,7 +6,7 @@
 
 #include "nanoglimpse/Core/Defs.h"
 
-namespace ng::Renderer {
+namespace ng::Graphics {
     class NG_API Shader {
     public:
         Shader(const std::string &name, const std::string &vertexCode, const std::string &fragmentCode);

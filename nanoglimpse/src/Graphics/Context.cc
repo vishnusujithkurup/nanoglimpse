@@ -4,9 +4,9 @@
 #include "nanoglimpse/Core/Log.h"
 #include "nanoglimpse/Core/Assert.h"
 
-#include "nanoglimpse/Renderer/Context.h"
+#include "nanoglimpse/Graphics/Context.h"
 
-namespace ng::Renderer {
+namespace ng::Graphics {
     void Context::Init(GLFWwindow *window) {
         NG_INTERNAL_ASSERT(window != nullptr);
         m_WindowInstance = window;

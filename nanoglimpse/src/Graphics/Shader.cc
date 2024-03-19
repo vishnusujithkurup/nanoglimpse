@@ -3,10 +3,10 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "nanoglimpse/Renderer/Shader.h"
+#include "nanoglimpse/Graphics/Shader.h"
 #include "nanoglimpse/Core/Log.h"
 
-namespace ng::Renderer {
+namespace ng::Graphics {
 
     int Shader::GetUniformLocation(const std::string &name, unsigned int prog) {
         int loc = glGetUniformLocation(prog, name.c_str());
