@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <glm/glm.hpp>
 
 #include "nanoglimpse/Core/Defs.h"
 #include "nanoglimpse/Core/KeyCodes.h"
@@ -11,11 +12,8 @@ typedef struct GLFWwindow GLFWwindow;
 namespace ng::Core {
     class NG_API Input {
     public:
-        static void ListenTo(GLFWwindow *window);
         static bool isKeyPressed(Key::KeyCode k);
         static bool isMouseButtonPressed(MouseButton::MouseCode k);
-        static std::pair<double, double> GetMousePosition();
-    private:
-        static GLFWwindow *s_WindowInstance;
+        static glm::vec2 GetMousePosition();
     };
 }

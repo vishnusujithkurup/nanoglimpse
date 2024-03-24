@@ -27,4 +27,30 @@ namespace ng::Events {
     private:
         ng::Core::MouseButton::MouseCode m_Code;
     };
+
+    class NG_API MouseScrolledEvent : public Event {
+    public:
+        MouseScrolledEvent(double xoffset, double yoffset) : m_OffsetX(xoffset), m_OffsetY(yoffset) {
+            Type = EventType::MouseScrolled;
+        }
+
+        double GetOffsetX() const { return m_OffsetX; }
+        double GetOffsetY() const { return m_OffsetY; }
+
+    private:
+        double m_OffsetX, m_OffsetY;
+    };
+
+    class NG_API MouseMovedEvent : public Event {
+    public:
+        MouseMovedEvent(double xpos, double ypos) : m_X(xpos), m_Y(ypos) {
+            Type = EventType::MouseMoved;
+        }
+
+        double GetX() const { return m_X; }
+        double GetY() const { return m_Y; }
+
+    private:
+        double m_X, m_Y;
+    }; 
 }

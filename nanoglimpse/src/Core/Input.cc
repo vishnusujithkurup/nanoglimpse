@@ -4,33 +4,26 @@
 
 #include "nanoglimpse/Core/Input.h"
 #include "nanoglimpse/Core/Assert.h"
+#include "nanoglimpse/Core/Application.h"
 
 namespace ng::Core {
-    GLFWwindow* Input::s_WindowInstance = nullptr;
-
-    void Input::ListenTo(GLFWwindow *window) {
-        NG_INTERNAL_ASSERT(window != nullptr);
-        s_WindowInstance = window;
-    }
-
     bool Input::isKeyPressed(Key::KeyCode k) {
-        NG_INTERNAL_ASSERT(s_WindowInstance != nullptr);
-        return s_WindowInstance ? glfwGetKey(s_WindowInstance, k) == GLFW_PRESS : false;
+        NG_INTERNAL_ASSERT(Application::GetApplication().GetWindow(), "Window is nullptr!");
+        NG_INTERNAL_ASSERT(Application::GetApplication().GetWindow()->GetNativeWindow(), "GLFWwindow* is nullptr!");
+        return glfwGetKey(Application::GetApplication().GetWindow()->GetNativeWindow(), k) == GLFW_PRESS;
     }
 
     bool Input::isMouseButtonPressed(MouseButton::MouseCode k) {
-        NG_INTERNAL_ASSERT(s_WindowInstance != nullptr);
-        return s_WindowInstance ? glfwGetMouseButton(s_WindowInstance, k) == GLFW_PRESS : false;
+        NG_INTERNAL_ASSERT(Application::GetApplication().GetWindow(), "Window is nullptr!");
+        NG_INTERNAL_ASSERT(Application::GetApplication().GetWindow()->GetNativeWindow(), "GLFWwindow* is nullptr!");
+        return glfwGetMouseButton(Application::GetApplication().GetWindow()->GetNativeWindow(), k) == GLFW_PRESS;
     }
 
-    std::pair<double, double> Input::GetMousePosition() {
-        NG_INTERNAL_ASSERT(s_WindowInstance != nullptr);
-        if (s_WindowInstance) {
-            double xpos, ypos;
-            glfwGetCursorPos(s_WindowInstance, &xpos, &ypos);
-            return {xpos, ypos};
-        } else {
-            return std::make_pair(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
-        }
+    glm::vec2 Input::GetMousePosition() {
+        NG_INTERNAL_ASSERT(Application::GetApplication().GetWindow(), "Window is nullptr!");
+        NG_INTERNAL_ASSERT(Application::GetApplication().GetWindow()->GetNativeWindow(), "GLFWwindow* is nullptr!");
+        double xpos, ypos;
+        glfwGetCursorPos(Application::GetApplication().GetWindow()->GetNativeWindow(), &xpos, &ypos);
+        return {xpos, ypos};
     }
 }

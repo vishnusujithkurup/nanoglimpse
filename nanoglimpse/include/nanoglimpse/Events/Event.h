@@ -3,10 +3,10 @@
 #include "nanoglimpse/Core/Defs.h"
 
 namespace ng::Events {
-    enum class EventType {
+    enum class NG_API EventType {
         Unknown,
         KeyPressed, KeyReleased,
-        MouseButtonPressed, MouseButtonReleased, MouseScrolled,
+        MouseButtonPressed, MouseButtonReleased, MouseScrolled, MouseMoved,
         WindowResized, WindowClosed
     };
 

@@ -16,6 +16,7 @@ namespace ng::Core {
         uint32_t Height = 400;
         bool VSyncEnabled = true;
         bool Resizable = false;
+        bool DisableCursor = true;
         std::string Title = "NG App";
     };
 

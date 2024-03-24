@@ -10,8 +10,6 @@ int main(int argc, char **argv) {
 
     ng::Core::Application *app = ng::Core::CreateApplication();
 
-    ng::Core::Input::ListenTo(app->GetWindow()->GetNativeWindow());
-
     app->Run();
 
     delete app;

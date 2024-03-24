@@ -3,7 +3,11 @@
 #include <memory>
 
 #include "nanoglimpse/Core/Defs.h"
+#include "nanoglimpse/Core/Assert.h"
 #include "nanoglimpse/Events/Event.h"
+#include "nanoglimpse/Events/KeyEvents.h"
+#include "nanoglimpse/Events/MouseEvents.h"
+#include "nanoglimpse/Events/WindowEvents.h"
 #include "nanoglimpse/Core/Window.h"
 #include "nanoglimpse/Core/LayerStack.h"
 
@@ -19,6 +23,8 @@ namespace ng::Core {
         void PushLayer(Layer *layer);
         void PushOverlay(Layer *layer);
 
+        static const Application& GetApplication() { NG_INTERNAL_ASSERT(s_Instance); return *s_Instance; }
+
         Window* GetWindow() const { return m_AppWindow.get(); }
 
     private:
@@ -30,6 +36,9 @@ namespace ng::Core {
 
         void PropagateEventToLayers(ng::Events::Event &e);
         void OnWindowClose();
+        void OnWindowResize(ng::Events::WindowResizedEvent &e);
+
+        static Application* s_Instance;
     };
 
     extern Application* CreateApplication();

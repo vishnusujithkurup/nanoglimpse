@@ -2,18 +2,21 @@
 #include "nanoglimpse/Core/Assert.h"
 #include "nanoglimpse/Core/Layer.h"
 #include "nanoglimpse/Utils/TimeUtils.h"
-#include "nanoglimpse/Events/KeyEvents.h"
-#include "nanoglimpse/Events/MouseEvents.h"
-#include "nanoglimpse/Events/WindowEvents.h"
 
 #include <glad/glad.h>
 #include "nanoglimpse/Graphics/VertexBuffer.h"
 #include "nanoglimpse/Graphics/BufferLayout.h"
 #include "nanoglimpse/Graphics/VertexArray.h"
 #include "nanoglimpse/Graphics/Shader.h"
+#include "nanoglimpse/Graphics/Renderer.h"
 
 namespace ng::Core {
+    Application* Application::s_Instance = nullptr;
+
     Application::Application() : m_PrevTime(0.f) {
+        NG_INTERNAL_ASSERT(!s_Instance, "Only single application instance allowed!");
+        s_Instance = this;
+
         m_AppWindow = std::make_unique<Window>(WindowProperties{.Width=800, .Height=800, .VSyncEnabled = false, .Title="Test Application"});
         if (m_AppWindow) {
             m_Running = true;
@@ -21,42 +24,10 @@ namespace ng::Core {
         }
     }
 
+    
+
     void Application::Run() {
         using namespace ng::Graphics;
-
-        float verts[9] = {
-            -0.75f, -0.75f, 0.0f,
-            0.75f, -0.75f, 0.0f,
-            0.0f, 0.75f, 0.0f
-        };
-
-        VertexBuffer vb(verts, sizeof(verts));
-        BufferLayout layout;
-        layout.Push({3, BufferElementType::Float, false});
-        VertexArray va;
-        va.AttachBuffer(vb, layout);
-
-        std::string vert = R"(
-            #version 330 core
-
-            layout (location = 0) in vec3 a_Pos;
-
-            void main() {
-                gl_Position = vec4(a_Pos, 1.0f);
-            }
-        )";
-
-        std::string frag = R"(
-            #version 330 core
-
-            out vec4 color;
-
-            void main() {
-                color = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-            }
-        )";
-
-        Shader shader("Main", vert, frag);
         
         while (m_Running) {
             float timeNow = ng::TimeUtils::Now();
@@ -68,13 +39,6 @@ namespace ng::Core {
             }
 
             m_AppWindow->OnUpdate();
-
-            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            shader.Activate();
-            va.Bind();
-            glDrawArrays(GL_TRIANGLES, 0, 3);
         }
     }
 
@@ -86,8 +50,8 @@ namespace ng::Core {
                 break;
             }
             case EventType::WindowResized: {
-                ng::Events::WindowResizedEvent wre = static_cast<ng::Events::WindowResizedEvent&>(e);
-                NG_INTERNAL_INFO("Window with title=\"{0}\" resized, width={1}, height={2}", m_AppWindow->GetTitle(), wre.GetWidth(), wre.GetHeight());
+                auto wre = static_cast<ng::Events::WindowResizedEvent&>(e);
+                OnWindowResize(wre);
                 break;
             }
             case EventType::Unknown: {
@@ -121,6 +85,10 @@ namespace ng::Core {
 
     void Application::OnWindowClose() {
         m_Running = false;
+    }
+
+    void Application::OnWindowResize(ng::Events::WindowResizedEvent &e) {
+        ng::Graphics::Renderer::UpdateViewport(0, 0, e.GetWidth(), e.GetHeight());
     }
 
     Application::~Application() {

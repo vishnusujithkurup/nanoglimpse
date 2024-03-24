@@ -1,31 +1,11 @@
-#include <iostream>
+#include <nanoglimpse/nanoglimpse.h>
 
-#include <nanoglimpse/Core/EntryPoint.h>
-#include <nanoglimpse/Core/Application.h>
-#include <nanoglimpse/Math/Math.h>
-#include <nanoglimpse/Core/Layer.h>
-#include <nanoglimpse/Core/Input.h>
-
-class TestLayer : public ng::Core::Layer {
-    void OnInit() override {
-        NG_INFO("Layer initialized!");
-    }
-
-    void OnRemove() override {
-        NG_INFO("Layer removed!");
-    }
-
-    void OnUpdate(float dt) override {
-    }
-
-    void OnEvent(ng::Events::Event &e) override {
-    }
-};
+#include "CubeTestLayer.h"
 
 class TestApp : public ng::Core::Application {
 public:
     TestApp() {
-        PushLayer(new TestLayer());
+        PushLayer(new CubeTestLayer());
     }
 
     ~TestApp() {

@@ -16,6 +16,7 @@ namespace ng::Core {
         if (!s_GLFWInit) {
             Init();
         }
+        glfwWindowHint(GLFW_RESIZABLE, props.Resizable ? GLFW_TRUE : GLFW_FALSE);
         m_GLFWwindow = glfwCreateWindow(props.Width, props.Height, props.Title.c_str(), nullptr, nullptr);
         if (!m_GLFWwindow) {
             NG_INTERNAL_ERROR("Failed to create window!");
@@ -25,6 +26,8 @@ namespace ng::Core {
             m_Context.Init(m_GLFWwindow);
 
             SetVSyncEnabled(props.VSyncEnabled);
+
+            glfwSetInputMode(m_GLFWwindow, GLFW_CURSOR, props.DisableCursor ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 
             glfwSetWindowUserPointer(m_GLFWwindow, (WindowAttribs*)&m_Attribs);
 
@@ -60,6 +63,18 @@ namespace ng::Core {
                         break;
                     }
                 };
+            });
+
+            glfwSetScrollCallback(m_GLFWwindow, [](GLFWwindow *window, double xoffset, double yoffset) {
+                WindowAttribs *attribs = (WindowAttribs*)glfwGetWindowUserPointer(window);
+                ng::Events::MouseScrolledEvent e(xoffset, yoffset);
+                attribs->EventCB(e);
+            });
+
+            glfwSetCursorPosCallback(m_GLFWwindow, [](GLFWwindow *window, double xpos, double ypos) {
+                WindowAttribs *attribs = (WindowAttribs*)glfwGetWindowUserPointer(window);
+                ng::Events::MouseMovedEvent e(xpos, ypos);
+                attribs->EventCB(e);
             });
 
             glfwSetWindowSizeCallback(m_GLFWwindow, [](GLFWwindow *window, int width, int height) {

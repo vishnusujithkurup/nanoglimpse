@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 
 #include "nanoglimpse/Graphics/VertexArray.h"
+#include "nanoglimpse/Graphics/GLDebug.h"
 
 namespace ng::Graphics {
 
@@ -14,11 +15,11 @@ namespace ng::Graphics {
     }
 
     VertexArray::VertexArray() {
-        glGenVertexArrays(1, &m_ID);
+        GLEC(glGenVertexArrays(1, &m_ID));
     }
 
     void VertexArray::Bind() const {
-        glBindVertexArray(m_ID);
+        GLEC(glBindVertexArray(m_ID));
     }
 
     void VertexArray::Unbind() const {
@@ -26,19 +27,20 @@ namespace ng::Graphics {
     }
 
     void VertexArray::AttachBuffer(const VertexBuffer &vb, const BufferLayout &layout) {
-        glBindVertexArray(m_ID);
+        GLEC(glBindVertexArray(m_ID));
         vb.Bind();
         uint32_t offset = 0, id = 0;
         for (const auto &ele : layout) {
-            glVertexAttribPointer(id, ele.Count, GetOpenGLType(ele.Type), ele.Normalized, layout.GetStride(), (const void*)offset);
-            glEnableVertexAttribArray(id);
+            GLEC(glVertexAttribPointer(id, ele.Count, GetOpenGLType(ele.Type), ele.Normalized, layout.GetStride(), (const void*)offset));
+            GLEC(glEnableVertexAttribArray(id));
+            offset += ele.Count * GetTypeSize(ele.Type);
             ++id;
         }
         glBindVertexArray(0);
     }
 
     VertexArray::~VertexArray() {
-        glDeleteVertexArrays(1, &m_ID);
+        GLEC(glDeleteVertexArrays(1, &m_ID));
     }
     
 }

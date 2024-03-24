@@ -14,13 +14,13 @@ namespace ng::Graphics {
         void Activate() const;
         void Deactivate() const;
 
-        void UploadInt(const std::string &name, int value);
-        void UploadFloat(const std::string &name, float value);
-        void UploadVec2(const std::string &name, const glm::vec2 &value);
-        void UploadVec3(const std::string &name, const glm::vec3 &value);
-        void UploadVec4(const std::string &name, const glm::vec4 &value);
-        void UploadMat3(const std::string &name, const glm::mat3 &value);
-        void UploadMat4(const std::string &name, const glm::mat4 &value);
+        void UploadInt(const std::string &name, int value) const;
+        void UploadFloat(const std::string &name, float value) const;
+        void UploadVec2(const std::string &name, const glm::vec2 &value) const;
+        void UploadVec3(const std::string &name, const glm::vec3 &value) const;
+        void UploadVec4(const std::string &name, const glm::vec4 &value) const;
+        void UploadMat3(const std::string &name, const glm::mat3 &value) const;
+        void UploadMat4(const std::string &name, const glm::mat4 &value) const;
 
         ~Shader();
 
