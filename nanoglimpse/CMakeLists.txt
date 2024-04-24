@@ -14,6 +14,7 @@ set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Context.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/GLDebug.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Shader.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Texture2D.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/BufferLayout.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/VertexBuffer.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/VertexArray.cc
@@ -26,6 +27,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/spdlog)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/glfw)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/glm)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/glad)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/stb_image)
 
 add_library(nanoglimpse SHARED ${SOURCES})
 
@@ -37,8 +39,10 @@ target_include_directories(nanoglimpse PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/extern
 target_include_directories(nanoglimpse PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/external/glfw/include)
 target_include_directories(nanoglimpse PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external/glm)
 target_include_directories(nanoglimpse PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/external/glad/include)
+target_include_directories(nanoglimpse PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/external/stb_image/include)
 
 target_link_libraries(nanoglimpse PRIVATE spdlog::spdlog_header_only)
 target_link_libraries(nanoglimpse PRIVATE glfw)
 target_link_libraries(nanoglimpse PRIVATE glm::glm)
 target_link_libraries(nanoglimpse PRIVATE glad)
+target_link_libraries(nanoglimpse PRIVATE stb_image)

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <memory>
 
 #include <nanoglimpse/nanoglimpse.h>
@@ -6,6 +8,7 @@ class CubeTestLayer : public ng::Core::Layer {
 public:
     void OnInit() override {
         NG_INFO("Layer initialized!");
+
         using namespace ng::Graphics;
         
         fcc = std::make_shared<FlyCameraController>(45.f, 1.f, 0.1, 100.f, glm::vec3(0.f, 0.f, 3.f));
@@ -105,6 +108,7 @@ public:
         Renderer::Clear();
 
         glm::mat4 model = glm::rotate(glm::mat4(1.f), ng::TimeUtils::Now(), glm::vec3(0.5f, 1.f, 0.f));
+        model = glm::scale(model, glm::vec3(glm::sin(ng::TimeUtils::Now())));
         
         Renderer::Begin(fcc->GetCamera());
         Renderer::Push(*shader, *va, 36, model);

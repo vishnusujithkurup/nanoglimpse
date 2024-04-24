@@ -19,3 +19,4 @@
 #include "nanoglimpse/Graphics/VertexArray.h"
 #include "nanoglimpse/Graphics/FlyCameraController.h"
 #include "nanoglimpse/Graphics/Renderer.h"
+#include "nanoglimpse/Graphics/Texture2D.h"
